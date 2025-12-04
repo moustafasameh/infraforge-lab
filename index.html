@@ -2,10 +2,328 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Infraforge Lab</title>
+  <title>InfraForge Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Simple CSS inside the same file -->
+  <style>
+    :root {
+      --bg: #020617;
+      --card-bg: rgba(15, 23, 42, 0.96);
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.18);
+      --accent-strong: #4ade80;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at top, #1f2933 0, #020617 40%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      width: 100%;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 32px 28px 26px;
+      border-radius: 20px;
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(17, 24, 39, 0.9)
+      );
+      border: 1px solid var(--border);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Glow decoration */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, var(--accent-soft), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.2), transparent 60%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--accent-soft);
+      color: var(--accent-strong);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 10px var(--accent-strong);
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 40px);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      max-width: 520px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    li span {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .right {
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      background: radial-gradient(circle at top left, var(--accent-soft), #020617);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .right-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .callout {
+      font-size: 14px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .domain {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: "Consolas", "SF Mono", ui-monospace, monospace;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      margin-bottom: 8px;
+    }
+
+    .domain span {
+      color: var(--accent-strong);
+    }
+
+    .small-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 22px 18px 18px;
+      }
+
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Welcome to Infraforge Lab</h1>
-  <p>This page is served from GitHub Pages using lab.infraforge.tech.</p>
+  <div class="wrapper">
+    <main class="card">
+      <div class="card-inner">
+        <!-- Badge -->
+        <div class="badge">
+          <div class="badge-dot"></div>
+          INFRAFORGE • LAB ENVIRONMENT
+        </div>
+
+        <!-- Hero text -->
+        <h1>Welcome to InfraForge Lab</h1>
+        <p class="subtitle">
+          A private playground for experiments in IT infrastructure, monitoring,
+          and automation &mdash; built and maintained by Mostafa Sameh.
+        </p>
+
+        <!-- Main content -->
+        <div class="grid">
+          <!-- Left side: what this lab is -->
+          <section>
+            <p class="section-title">What happens in this lab?</p>
+
+            <div class="pill-list">
+              <div class="pill">SCCM / SCOM experiments</div>
+              <div class="pill">Monitoring dashboards</div>
+              <div class="pill">GitHub &amp; DevOps practice</div>
+              <div class="pill">Safe testing environment</div>
+            </div>
+
+            <ul>
+              <li>
+                ▶&nbsp; Test ideas before they reach real production
+                <br /><span>Perfect for experimenting with configs, scripts, and
+                deployment scenarios.</span>
+              </li>
+              <li>
+                ▶&nbsp; Capture lessons learned
+                <br /><span>Every failure in the lab is a story and a playbook
+                for the real world.</span>
+              </li>
+              <li>
+                ▶&nbsp; Build a long-term knowledge base
+                <br /><span>Over time this space will grow into a mini
+                documentation hub for InfraForge.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Right side: domain + contact -->
+          <aside class="right">
+            <p class="right-title">Access</p>
+
+            <div class="small-label">Current lab endpoint</div>
+            <div class="domain">
+              <span>●</span>
+              <code>lab.infraforge.tech</code>
+            </div>
+
+            <p class="callout">
+              This subdomain is dedicated to experiments, PoCs, and internal
+              tools. Content may change frequently as new ideas are tested.
+            </p>
+
+            <div class="small-label">Main brand domain</div>
+            <div class="domain">
+              <code>infraforge.tech</code>
+            </div>
+
+            <p class="small-label">Owner</p>
+            <p style="font-size: 12px; color: var(--text-main);">
+              Mostafa Sameh &mdash; IT Infrastructure &amp; Monitoring Enthusiast
+            </p>
+          </aside>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div>
+            <strong>InfraForge Lab</strong> &middot; Learning, breaking,
+            and rebuilding IT infrastructure.
+          </div>
+          <div>
+            Next steps: connect more projects, dashboards, and tools under this
+            domain.
+          </div>
+        </footer>
+      </div>
+    </main>
+  </div>
 </body>
 </html>
